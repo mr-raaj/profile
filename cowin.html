@@ -1,0 +1,167 @@
+<html>
+<head>
+    <title>COWIN Availability | Raj</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="certification.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container-fluid">
+	<div class="row main">
+			<div class="col-sm-12">
+			<br>
+				<p>Hariom Raj</p>
+				<i style="font-size:13px;">Programmer, Computer Nerd, Web Developer</i>
+			</div>
+		</div>
+	<div class="row contact">
+			<div class="col-sm-12">
+				<ul>
+					<li class="nav-item active">
+					<div class="dropdown">
+					<span class="dropbtn">	<a class="nav-link" href="index.html" style="color:white; border:1px solid white;">&nbsp;&nbsp; HOME &nbsp;&nbsp;<span class="sr-only">(current)</span></a>
+					</span>
+					  <div class="dropdown-content">
+					   
+					   <a href="academic.html">Academic</a>
+						<a href="certification.html">Training and Certification</a>
+						<a href="gallery.html">Gallery</a>
+						<a href="contact.html">Contact</a>
+					  </div>
+					</div>
+					</li>
+				</ul>
+			</div>
+		</div>	
+	<div class="row">
+        <img style="width:100%; height:200px;" src="https://www.cowin.gov.in/assets/images/largest-vaccine-banner.jpg" />
+		</div>
+		<div class="row" style="text-align:center;">
+        <h5 style="color:white; background-color:#5e0209; font-family:verdana;padding:8px;">Check your nearest vaccination center and slots availability</h5>
+        <div class="form-group">
+            <label for="pin" style="font-size:20px;">Search By Pin Code:</label>
+            <center><input type="number" maxlength="6" class="form-control" id="pin" placeholder="Enter Your Pin Code" name="pin" style="width:60%; border:2px solid #5e0209;text-align:center;font-family:verdana; color:#5e0209; font-weight:bold;"/>
+			</center>
+        </div>
+
+        <button id="searchbtn" class="btn btn-default" style="background-color:#5e0209;color:white;">Search</button>
+<br><br>
+        <button id="searchbtn1" class="btn btn-default" style="border:2px solid teal; height:35px;">Search By District( Only Ayodhya)</button>
+<br>
+<br>
+        <table class="table" id="session">
+            <thead>
+                <tr style="background-color:#5e0209;color:white;">
+                    <th>Hospital / Center Name</th>
+                    <th>Pin code</th>
+                    <th>Date</th>
+                    <th>18+</th>
+                    <th>45+</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+	
+    <script>
+        var date = new Date();
+        var today = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
+        $("#searchbtn").click(function () {
+            var pin = $('#pin').val();
+            if (pin == '' || pin == undefined) {
+                alert('please enter pin code');
+                return;
+            }
+            $.get("https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByPin?pincode=" + pin +
+                "&date=" + today,
+                function (data, status) {
+                    if (status) {
+                        var sessions = data.sessions ? data.sessions : [];
+                        if (sessions) {
+                            for (var i = 0; i <= sessions.length; i++) {
+                                var classname = "info";
+                                if (i % 2 == 0) {
+                                    classname = "success"
+                                }
+                                $('#session tbody').append("<tr class=" + classname + "><td>" + sessions[i]
+                                    .name + "</td><td>" + sessions[i].pincode + "</td><td>" + sessions[i].date + "</td><td>" + sessions[i].available_capacity + "</td><td>" +
+                                    sessions[i].available_capacity_dose1 + "</td></tr>")
+                            }
+                        }
+                    } else {
+                        alert('error');
+                    }
+
+                });
+        });
+
+        $("#searchbtn1").click(function () {
+            var district_id = "646";
+            $.get("https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByDistrict?district_id=" +
+                district_id + "&date=" + today,
+                function (data, status) {
+                    if (status) {
+                        var sessions = data.sessions ? data.sessions : [];
+                        if (sessions) {
+                            for (var i = 0; i <= sessions.length; i++) {
+                                var classname = "info";
+                                if (i % 2 == 0) {
+                                    classname = "success"
+                                }
+
+                                $('#session tbody').append("<tr class=" + classname + "><td>" + sessions[i]
+                                    .name + "</td><td>" + sessions[i].pincode + "</td><td>" + sessions[i].date + "</td><td>" + sessions[i].available_capacity + "</td><td>" +
+                                    sessions[i].available_capacity_dose1 + "</td></tr>")
+                            }
+                        }
+                    } else {
+                        alert('error');
+                    }
+                });
+        });
+    </script>
+	<center><span>Powered by Raj <img src="Images/smile.png" height="25px" width="30px"/></span></center>
+		<hr>
+	<div class="row">
+	<footer>
+  <div class="footer-top">
+    <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-2 col-sm-6 col-xs-12 segment-one md-mb-30 sm-mb-30">
+            
+          </div>
+          <div class="col-md-4 col-sm-6 col-xs-12 segment-two md-mb-30 sm-mb-30">
+            <h2>Social Media</h2>
+            <ul>
+              <li><a href="">Instagram</a></li><br>
+              <li><a href="">LinkedIn</a></li><br>
+              <li><a href="">Facebook</a></li>
+              
+            </ul>
+          </div>
+          <div class="col-md-3 col-sm-6 col-xs-12 segment-two md-mb-30 sm-mb-30">
+            <h2>Github</h2>
+            <ul>
+              
+              <li><a href="#">Git</a></li>
+            </ul>
+          </div>  
+          <div class="col-md-3 col-sm-6 col-xs-12 segment-two md-mb-30 sm-mb-30">
+            <h2>CONTACT</h2>
+              <p>E-mail: rajrp.info@gmail.com</p>
+        </div>
+      </div>
+    </div>
+	<p class="footer-bottom-text">CopyRights &copy Hariom Raj</p>
+    </div> 
+
+</footer>
+	</div>
+	</div>
+</body>
+
+</html>
